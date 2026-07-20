@@ -1,0 +1,20 @@
+# Enterprise Data Engineering Pipeline with Microsoft Fabric
+
+An end-to-end automated data engineering project built on **Microsoft Fabric**, leveraging **Medallion Architecture (Bronze $\rightarrow$ Silver $\rightarrow$ Gold)**, **PySpark**, **T-SQL Warehouse**, and **Data Factory Orchestration**.
+
+---
+
+## Architecture Overview
+
+```text
+[ Raw Data Source ]
+        │
+        ▼
+[ Lakehouse (Bronze) ]  ──(PySpark Clean & Transform)──► [ Lakehouse (Silver/Gold) ]
+                                                                   │
+                                                           (Stored Procedure)
+                                                                   ▼
+[ Data Factory Pipeline ] ◄──(Scheduled at 02:00 AM)─────── [ Data Warehouse ]
+        │                                                          │
+        ├──► (On Success) ──► Trigger SQL Procedure                ▼
+        └──► (On Failure) ──► Automated Notification       [ Semantic Model & RLS ]
